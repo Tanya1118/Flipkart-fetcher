@@ -1,0 +1,127 @@
+/* App.css */
+
+/* General body styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f7f6;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+  color: #333;
+}
+
+/* Form styling */
+form {
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid #0077cc;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0077cc;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #005fa3;
+}
+
+/* Product details styling */
+.product-details {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+  text-align: left;
+}
+
+.product-details h2 {
+  color: #0077cc;
+}
+
+.product-details img {
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.product-details p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+button.recheck-button {
+  background-color: #28a745;
+  margin-top: 15px;
+}
+
+button.recheck-button:hover {
+  background-color: #218838;
+}
+
+/* Price history section */
+.price-history {
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.price-history h3 {
+  color: #ff5722;
+}
+
+.price-history ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.price-history li {
+  background-color: #f4f4f4;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Search bar styling */
+input[type="text"]:focus,
+input[type="search"]:focus {
+  outline: none;
+  border-color: #005fa3;
+}
+
+input[type="text"],
+input[type="search"] {
+  width: 300px;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 2px solid #0077cc;
+  font-size: 16px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
