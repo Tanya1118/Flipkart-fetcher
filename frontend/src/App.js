@@ -5,24 +5,24 @@ function App() {
     const [url, setUrl] = useState('');
     const [productDetails, setProductDetails] = useState(null);
     const [error, setError] = useState(null);
-    const [priceHistory, setPriceHistory] = useState([]); // For storing price history
+    const [priceHistory, setPriceHistory] = useState([]);
     const [searchTerm, setSearchTerm] = useState(''); // For storing the search term
     const [products, setProducts] = useState([]); // Initialize products as an empty array
 
     useEffect(() => {
-        // Fetch all products when the component loads
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/products');
-                const data = await response.json();
-                setProducts(data); // Set fetched products
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-
-        fetchProducts();
+        // Fetch all products initially when the component loads
+        fetchAllProducts();
     }, []);
+
+    const fetchAllProducts = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/products');
+            const data = await response.json();
+            setProducts(data); // Set fetched products
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
     const fetchProductDetails = async (e) => {
         e.preventDefault();
@@ -41,11 +41,11 @@ function App() {
 
             const data = await response.json();
             setProductDetails(data);
-            setError(null); // Reset error on success
-            setPriceHistory(data.priceHistory || []); // Initialize price history from the response
+            setError(null);
+            setPriceHistory(data.priceHistory || []);
         } catch (err) {
             setError(err.message);
-            setProductDetails(null); // Reset product details on error
+            setProductDetails(null);
         }
     };
 
@@ -54,14 +54,15 @@ function App() {
             const response = await fetch('http://localhost:5000/fetch-details', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url })
+                body: JSON.stringify({ url })  // Make sure URL is sent correctly
             });
+            
             const data = await response.json();
-
+    
             if (response.ok) {
-                // Update product details and append new price to history
-                setProductDetails(data);
-                setPriceHistory(prev => [...prev, { date: new Date().toLocaleString(), price: data.price }]);
+                // Update product details and append the new price to the price history
+                setProductDetails(data); 
+                setPriceHistory(prev => [...prev, { price: data.priceHistory[data.priceHistory.length - 1].price }]); // Update with the latest price
             } else {
                 setError(data.error);
             }
@@ -69,17 +70,32 @@ function App() {
             setError('Error fetching product details');
         }
     };
+    
 
-    // Filter products by search term
-    const filteredProducts = Array.isArray(products) ? products.filter(product =>
-        product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    ) : [];
+    // New function to search products from the backend
+    const searchProducts = async (searchTerm) => {
+        try {
+            const response = await fetch(`http://localhost:5000/api/products/search?title=${searchTerm}`);
+            const data = await response.json();
+            setProducts(data); // Update the products based on search results
+        } catch (error) {
+            console.error('Error searching products:', error);
+        }
+    };
+
+    // Trigger search when searchTerm changes
+    useEffect(() => {
+        if (searchTerm.trim()) {
+            searchProducts(searchTerm);
+        } else {
+            fetchAllProducts(); // Fetch all products if search term is empty
+        }
+    }, [searchTerm]);
 
     return (
         <div className="App">
             <h1>Flipkart Product Fetcher</h1>
 
-            {/* Form to fetch product details */}
             <form onSubmit={fetchProductDetails}>
                 <input
                     type="text"
@@ -94,19 +110,12 @@ function App() {
 
             {error && <p className="error">{error}</p>}
 
-            {/* Display fetched product details */}
             {productDetails && (
                 <div className="product-details">
                     <h2>{productDetails.title}</h2>
                     <img src={productDetails.imageUrl} alt={productDetails.title} style={{ maxWidth: '200px' }} />
                     <p><strong>Description:</strong> {productDetails.description || 'Description not found'}</p>
-                    
-                    {/* Display the current price */}
                     <p><strong>Current Price:</strong> {priceHistory.length > 0 ? priceHistory[priceHistory.length - 1].price : 'Price not found'}</p>
-                    
-                    {/* Original Price */}
-                    <p><strong>Original Price:</strong> {productDetails.originalPrice || 'N/A'}</p>
-                    
                     <p><strong>Rating:</strong> {productDetails.rating || 'No rating available'}</p>
                     <p><strong>Reviews:</strong> {productDetails.reviews || 'No reviews available'}</p>
                     <p><strong>Total Purchases:</strong> {productDetails.totalPurchases || 'Total purchases not found'}</p>
@@ -114,19 +123,7 @@ function App() {
                 </div>
             )}
 
-            {/* Display price history */}
-            {priceHistory.length > 0 && (
-                <div className="price-history">
-                    <h3>Price History</h3>
-                    <ul>
-                        {priceHistory.map((entry, index) => (
-                            <li key={index}>{entry.date}: {entry.price}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-
-            {/* Search functionality */}
+            {/* Search input */}
             <input
                 type="text"
                 placeholder="Search by title"
@@ -137,8 +134,8 @@ function App() {
 
             {/* Display filtered products */}
             <div className="product-list">
-                {filteredProducts.length > 0 ? (
-                    filteredProducts.map(product => (
+                {products.length > 0 ? (
+                    products.map(product => (
                         <div key={product._id} className="product-item">
                             <h2>{product.title}</h2>
                             <p>Current Price: {product.priceHistory.length > 0 ? product.priceHistory[product.priceHistory.length - 1].price : 'No price available'}</p>

@@ -3,24 +3,32 @@ require('dotenv').config();
 const puppeteer = require('puppeteer');
 const cors = require('cors');
 const path = require('path');
-const Product = require('./models/product');
+const Product = require('./models/Product');  // Ensure this path is correct
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const mongoose = require('mongoose');
-
-mongoose.connect(process.env.MONGO_URI, { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true })
-  .then(() => app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-}))
-.catch((error) => console.error('MongoDB connection error:', error));
+const productRoutes = require('./routes/ProductRoutes');
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json());  // Important: This should come before the routes
+
+// Static assets (frontend)
 app.use(express.static(path.join(__dirname, '../frontend/public')));
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+})
+  .then(() => app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  }))
+  .catch((error) => console.error('MongoDB connection error:', error));
+
+// API Routes
+app.use('/api/products', productRoutes);  // Prefix all product routes with `/api/products`
 
 // Fetch all products
 app.get('/products', async (req, res) => {
@@ -33,36 +41,41 @@ app.get('/products', async (req, res) => {
   }
 });
 
-// Fetch product details
+// Fetch product details and add/update price history (recheck price functionality)
 app.post('/fetch-details', async (req, res) => {
   const { url } = req.body;
 
   try {
+    // Validate Flipkart URL
     if (!url.includes('flipkart.com')) {
       return res.status(400).json({ error: 'Invalid Flipkart URL' });
     }
 
+    // Check if product already exists in the database
     const existingProduct = await Product.findOne({ url });
+
     if (existingProduct) {
-      // If product already exists, update price history
+      // Recheck the price and update the price history
       const browser = await puppeteer.launch({ headless: true });
       const page = await browser.newPage();
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
       await page.goto(url, { waitUntil: 'networkidle0' });
 
+      // Fetch latest price
       const productDetails = await page.evaluate(() => {
         const price = document.querySelector('div.Nx9bqj.CxhGGd')?.innerText || 'Price not found';
         return { price };
       });
 
+      // Update price history
       existingProduct.priceHistory.push({ price: productDetails.price });
       await existingProduct.save();
 
       await browser.close();
-      return res.json(existingProduct);
+      return res.json(existingProduct); // Return updated product with the new price
     }
 
-    // Fetch new product details
+    // If product does not exist, fetch full product details
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64)');
@@ -97,14 +110,14 @@ app.post('/fetch-details', async (req, res) => {
     await newProduct.save();
     await browser.close();
 
-    res.json(newProduct);
+    res.json(newProduct); // Return new product with all details
   } catch (error) {
     console.error('Error fetching product details:', error.message);
     res.status(500).json({ error: 'Failed to fetch product details' });
   }
 });
 
-// Fallback route for React frontend
+// Fallback route for serving React frontend
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
