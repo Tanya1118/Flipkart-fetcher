@@ -42,7 +42,7 @@ function App() {
             const data = await response.json();
             setProductDetails(data);
             setError(null); // Reset error on success
-            setPriceHistory(data.priceHistory); // Initialize price history from the response
+            setPriceHistory(data.priceHistory || []); // Initialize price history from the response
         } catch (err) {
             setError(err.message);
             setProductDetails(null); // Reset product details on error
@@ -99,12 +99,17 @@ function App() {
                 <div className="product-details">
                     <h2>{productDetails.title}</h2>
                     <img src={productDetails.imageUrl} alt={productDetails.title} style={{ maxWidth: '200px' }} />
-                    <p><strong>Description:</strong> {productDetails.description}</p>
-                    <p><strong>Current Price:</strong> {productDetails.price}</p> {/* Current Price Display */}
-                    <p><strong>Original Price:</strong> {productDetails.originalPrice || 'N/A'}</p> {/* Original Price Display (if available) */}
-                    <p><strong>Rating:</strong> {productDetails.rating}</p>
-                    <p><strong>Reviews:</strong> {productDetails.reviews}</p>
-                    <p><strong>Total Purchases:</strong> {productDetails.totalPurchases}</p>
+                    <p><strong>Description:</strong> {productDetails.description || 'Description not found'}</p>
+                    
+                    {/* Display the current price */}
+                    <p><strong>Current Price:</strong> {priceHistory.length > 0 ? priceHistory[priceHistory.length - 1].price : 'Price not found'}</p>
+                    
+                    {/* Original Price */}
+                    <p><strong>Original Price:</strong> {productDetails.originalPrice || 'N/A'}</p>
+                    
+                    <p><strong>Rating:</strong> {productDetails.rating || 'No rating available'}</p>
+                    <p><strong>Reviews:</strong> {productDetails.reviews || 'No reviews available'}</p>
+                    <p><strong>Total Purchases:</strong> {productDetails.totalPurchases || 'Total purchases not found'}</p>
                     <button onClick={recheckPrice} className="btn-recheck">Recheck Price</button>
                 </div>
             )}
@@ -137,9 +142,9 @@ function App() {
                         <div key={product._id} className="product-item">
                             <h2>{product.title}</h2>
                             <p>Current Price: {product.priceHistory.length > 0 ? product.priceHistory[product.priceHistory.length - 1].price : 'No price available'}</p>
-                            <p>Rating: {product.rating}</p>
-                            <p>Total Purchases: {product.totalPurchases}</p>
-                            <p>{product.description}</p>
+                            <p>Rating: {product.rating || 'No rating available'}</p>
+                            <p>Total Purchases: {product.totalPurchases || 'Total purchases not found'}</p>
+                            <p>{product.description || 'Description not available'}</p>
                         </div>
                     ))
                 ) : (
