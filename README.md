@@ -22,7 +22,7 @@ MongoDB
 A running instance of MongoDB (local or cloud, such as MongoDB Atlas)
 Clone the Repository
 
-git clone https://github.com/yourusername/flipkart-product-fetcher.git
+git clone https://github.com/Tanya1118/Flipkart-fetcher.git
 cd flipkart-product-fetcher
 # Backend Setup
 Navigate to the backend folder:
@@ -60,25 +60,7 @@ Enter a Flipkart product URL in the input box and click Fetch Details.
 View product information including price, rating, and reviews.
 Recheck the price by clicking the Recheck Price button.
 Use the search box to search for products by title.
-# Folder Structure
 
-flipkart-product-fetcher/
-│
-├── backend/
-│   ├── controllers/      # API request handling
-│   ├── models/           # MongoDB models
-│   ├── routes/           # Express.js routes
-│   ├── puppeteer/        # Puppeteer script to scrape Flipkart
-│   └── app.js            # Main backend application
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/   # React components
-│   │   ├── App.js        # Main React component
-│   │   └── App.css       # Styling for the application
-│   └── public/           # Static files
-│
-└── README.md             # Project documentation
 # API Endpoints
 Fetch Product Details
 POST /fetch-details
