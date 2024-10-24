@@ -2,25 +2,25 @@
 The Flipkart Product Fetcher is a web application that allows users to fetch and display details of Flipkart products by entering the product URL. It also maintains a price history of the products and provides the ability to search for products by title. Users can recheck the price of previously fetched products and view historical price trends.
 
 # Features
-Fetch Product Details: Retrieve details such as title, description, highlights, current price, rating, reviews, and total purchases for any Flipkart product using its URL.
-Price History: Track the historical price of a product and display it for reference.
-Search Products: Search through previously fetched products by title.
-Recheck Price: Recheck and update the price for any product already fetched.
-Responsive UI: A clean, responsive interface that works across devices.
-Technologies Used
-Frontend: React.js
-Backend: Node.js, Express.js
-Web Scraping: Puppeteer (to fetch product details from Flipkart)
-Database: MongoDB (to store product details and price history)
-Styling: CSS
+#Fetch Product Details: Retrieve details such as title, description, highlights, current price, rating, reviews, and total purchases for any #Flipkart product using its URL.
+#Price History: Track the historical price of a product and display it for reference.
+#Search Products: Search through previously fetched products by title.
+#Recheck Price: Recheck and update the price for any product already fetched.
+#Responsive UI: A clean, responsive interface that works across devices.
+# Technologies Used
+#Frontend: React.js
+#Backend: Node.js, Express.js
+#Web Scraping: Puppeteer (to fetch product details from Flipkart)
+#Database: MongoDB (to store product details and price history)
+#Styling: CSS
 # Setup Instructions
 Prerequisites
 Ensure you have the following installed:
 
-Node.js
-MongoDB
-A running instance of MongoDB (local or cloud, such as MongoDB Atlas)
-Clone the Repository
+#Node.js
+#MongoDB
+#A running instance of MongoDB (local or cloud, such as MongoDB Atlas)
+# Clone the Repository
 
 git clone https://github.com/Tanya1118/Flipkart-fetcher.git
 cd flipkart-product-fetcher
@@ -28,11 +28,11 @@ cd flipkart-product-fetcher
 Navigate to the backend folder:
 
 
-cd backend
+#cd backend
 Install backend dependencies:
 
 npm install
-Set up environment variables in a .env file:
+#Set up environment variables in a .env file:
 
 
 MONGO_URI=<Your MongoDB connection string>
