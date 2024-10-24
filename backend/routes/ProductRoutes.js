@@ -1,6 +1,6 @@
 // routes/productRoutes.js
 const express = require('express');
-const Product = require('../models/Product'); // Assuming Product.js is under /models folder
+const Product = require('../models/product'); // Assuming Product.js is under /models folder
 const puppeteer = require('puppeteer'); // Assuming Puppeteer is used for fetching
 
 const router = express.Router();

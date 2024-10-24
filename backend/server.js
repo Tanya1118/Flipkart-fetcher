@@ -3,7 +3,7 @@ require('dotenv').config();
 const puppeteer = require('puppeteer');
 const cors = require('cors');
 const path = require('path');
-const Product = require('./models/Product');  // Ensure this path is correct
+const Product = require('./models/product');  // Ensure this path is correct
 
 const app = express();
 const PORT = process.env.PORT || 5000;
