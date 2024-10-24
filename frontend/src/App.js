@@ -54,24 +54,28 @@ function App() {
             const response = await fetch('http://localhost:5000/fetch-details', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url })  // Make sure URL is sent correctly
+                body: JSON.stringify({ url })
             });
             
             const data = await response.json();
     
             if (response.ok) {
-                // Update product details and append the new price to the price history
-                setProductDetails(data); 
-                setPriceHistory(prev => [...prev, { price: data.priceHistory[data.priceHistory.length - 1].price }]); // Update with the latest price
+                // Check if priceHistory exists and has at least one entry
+                if (data.priceHistory && data.priceHistory.length > 0) {
+                    // Update product details and append the new price to the price history
+                    setProductDetails(data); 
+                    setPriceHistory(prev => [...prev, { price: data.priceHistory[data.priceHistory.length - 1].price }]); // Update with the latest price
+                } else {
+                    setError('Price history not found.');
+                }
             } else {
-                setError(data.error);
+                setError(data.error || 'Failed to recheck price');
             }
         } catch (err) {
             setError('Error fetching product details');
         }
     };
     
-
     // New function to search products from the backend
     const searchProducts = async (searchTerm) => {
         try {
@@ -115,6 +119,7 @@ function App() {
                     <h2>{productDetails.title}</h2>
                     <img src={productDetails.imageUrl} alt={productDetails.title} style={{ maxWidth: '200px' }} />
                     <p><strong>Description:</strong> {productDetails.description || 'Description not found'}</p>
+                    <p><strong>Highlights:</strong> {productDetails.highlights || 'Highlights not found'}</p> {/* Add Highlights */}
                     <p><strong>Current Price:</strong> {priceHistory.length > 0 ? priceHistory[priceHistory.length - 1].price : 'Price not found'}</p>
                     <p><strong>Rating:</strong> {productDetails.rating || 'No rating available'}</p>
                     <p><strong>Reviews:</strong> {productDetails.reviews || 'No reviews available'}</p>
@@ -141,7 +146,7 @@ function App() {
                             <p>Current Price: {product.priceHistory.length > 0 ? product.priceHistory[product.priceHistory.length - 1].price : 'No price available'}</p>
                             <p>Rating: {product.rating || 'No rating available'}</p>
                             <p>Total Purchases: {product.totalPurchases || 'Total purchases not found'}</p>
-                            <p>{product.description || 'Description not available'}</p>
+                            <p><strong>Highlights:</strong> {product.highlights || 'Highlights not found'}</p> {/* Display highlights */}
                         </div>
                     ))
                 ) : (

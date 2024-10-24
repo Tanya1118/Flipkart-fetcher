@@ -84,7 +84,7 @@ app.post('/fetch-details', async (req, res) => {
     const productDetails = await page.evaluate(() => {
       const title = document.querySelector('span.VU-ZEz')?.innerText || 'Title not found';
       const price = document.querySelector('div.Nx9bqj.CxhGGd')?.innerText || 'Price not found';
-      const description = document.querySelector('div.yN+eNk.w9jEaj p')?.innerText || 'Description not found';
+      const description = document.querySelector('div.AoD2-N p')?.innerText || 'Description not found';
       const highlights = Array.from(document.querySelectorAll('div.xFVion ul li._7eSDEz')).map(li => li.innerText).join(', ') || 'Highlights not found';
       const rating = document.querySelector('div.XQDdHH')?.innerText || 'Rating not found';
       const reviews = document.querySelector('div.XQDdHH.Ga3i8K')?.innerText || 'Reviews not found';
