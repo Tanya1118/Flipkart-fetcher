@@ -56,15 +56,15 @@ function App() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ url })
             });
-            
+    
             const data = await response.json();
     
             if (response.ok) {
-                // Check if priceHistory exists and has at least one entry
                 if (data.priceHistory && data.priceHistory.length > 0) {
-                    // Update product details and append the new price to the price history
-                    setProductDetails(data); 
-                    setPriceHistory(prev => [...prev, { price: data.priceHistory[data.priceHistory.length - 1].price }]); // Update with the latest price
+                    // Update the product details with the latest price history
+                    setProductDetails(data);
+                    // Update the entire price history instead of appending
+                    setPriceHistory(data.priceHistory); // Replace the price history with the latest
                 } else {
                     setError('Price history not found.');
                 }
@@ -75,6 +75,7 @@ function App() {
             setError('Error fetching product details');
         }
     };
+    
     
     // New function to search products from the backend
     const searchProducts = async (searchTerm) => {
@@ -121,6 +122,7 @@ function App() {
                     <p><strong>Description:</strong> {productDetails.description || 'Description not found'}</p>
                     <p><strong>Highlights:</strong> {productDetails.highlights || 'Highlights not found'}</p> {/* Add Highlights */}
                     <p><strong>Current Price:</strong> {priceHistory.length > 0 ? priceHistory[priceHistory.length - 1].price : 'Price not found'}</p>
+                    <p><strong>Price History:{priceHistory.length>0?[... new Set(priceHistory.map(x=>x.price))].toString():[]}</strong></p>
                     <p><strong>Rating:</strong> {productDetails.rating || 'No rating available'}</p>
                     <p><strong>Reviews:</strong> {productDetails.reviews || 'No reviews available'}</p>
                     <p><strong>Total Purchases:</strong> {productDetails.totalPurchases || 'Total purchases not found'}</p>
