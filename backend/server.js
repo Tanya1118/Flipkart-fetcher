@@ -88,7 +88,7 @@ app.post('/fetch-details', async (req, res) => {
       const highlights = Array.from(document.querySelectorAll('div.xFVion ul li._7eSDEz')).map(li => li.innerText).join(', ') || 'Highlights not found';
       const rating = document.querySelector('div.XQDdHH')?.innerText || 'Rating not found';
       const reviews = document.querySelector('div.XQDdHH.Ga3i8K')?.innerText || 'Reviews not found';
-      const imageUrl = document.querySelector('img._53J4C-.utBuJY')?.src || 'Image not found';
+      const imageUrl = document.querySelector('div[class="_4WELSP _6lpKCl"] img')?.src || 'Image not found';
       const totalPurchases = document.querySelector('span._2_R_DZ span')?.innerText || 'Total purchases not found';
 
       return { title, price, description, highlights, rating, reviews, imageUrl, totalPurchases };

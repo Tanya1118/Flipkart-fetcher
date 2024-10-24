@@ -1,127 +1,91 @@
-/* App.css */
-
-/* General body styling */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f7f6;
-  margin: 0;
-  padding: 0;
-}
-
 .App {
-  text-align: center;
+  font-family: 'Arial', sans-serif;
   padding: 20px;
+  background-color: #f4f4f9;
   color: #333;
+  text-align: center;
 }
 
-/* Form styling */
-form {
-  margin-bottom: 20px;
+h1 {
+  font-size: 2.5rem;
+  color: #1a73e8;
 }
 
-input[type="text"] {
-  width: 300px;
+.form-container {
+  margin: 0 auto 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-box, .search-box {
   padding: 10px;
+  width: 300px;
   border-radius: 8px;
-  border: 2px solid #0077cc;
-  margin-right: 10px;
-  font-size: 16px;
+  border: 1px solid #ccc;
 }
 
-button {
+.btn-fetch, .btn-recheck {
   padding: 10px 20px;
+  background-color: #1a73e8;
+  color: white;
   border: none;
   border-radius: 8px;
-  background-color: #0077cc;
-  color: white;
-  font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #005fa3;
+.btn-fetch:hover, .btn-recheck:hover {
+  background-color: #0d47a1;
 }
 
-/* Product details styling */
-.product-details {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 20px auto;
-  text-align: left;
-}
-
-.product-details h2 {
-  color: #0077cc;
-}
-
-.product-details img {
-  border-radius: 8px;
+.error-container {
+  color: red;
   margin-bottom: 20px;
+  padding: 10px;
+  background-color: #ffe6e6;
+  border-radius: 5px;
 }
 
-.product-details p {
-  font-size: 16px;
+.product-details {
+  margin: 20px 0;
+}
+
+.product-image {
+  max-width: 200px;
+  border-radius: 8px;
   margin: 10px 0;
 }
 
-button.recheck-button {
-  background-color: #28a745;
-  margin-top: 15px;
+.product-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-button.recheck-button:hover {
-  background-color: #218838;
-}
-
-/* Price history section */
-.price-history {
-  max-width: 600px;
-  margin: 20px auto;
+.product-item {
   background-color: white;
   padding: 15px;
+  margin: 10px 0;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 80%;
   text-align: left;
 }
 
-.price-history h3 {
-  color: #ff5722;
+.card {
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
-.price-history ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.price-history li {
-  background-color: #f4f4f4;
-  margin: 8px 0;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-/* Search bar styling */
-input[type="text"]:focus,
-input[type="search"]:focus {
-  outline: none;
-  border-color: #005fa3;
-}
-
-input[type="text"],
-input[type="search"] {
-  width: 300px;
-  padding: 10px;
-  margin-top: 20px;
-  border-radius: 8px;
-  border: 2px solid #0077cc;
-  font-size: 16px;
-}
-
-.error {
-  color: red;
-  font-size: 14px;
+hr {
+  border: 0;
+  height: 1px;
+  background: #ddd;
+  margin: 10px 0;
 }
